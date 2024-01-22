@@ -19,8 +19,8 @@ import random
 pygame.init()
 
 # Determinei 800x600 mas vc pode aplicar a resolução que achar melhor (porém, vou fazer uma atividade em sala de upgrade)
-largura_tela = 800
-altura_tela = 600
+largura_tela = 900
+altura_tela = 700
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('IFMA Velozes e Estudiosos')
 
