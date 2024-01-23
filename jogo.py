@@ -15,6 +15,7 @@
 import pygame
 import random
 
+
 # Aqui faço a inicialização da biblioteca Pygame
 pygame.init()
 
@@ -24,16 +25,24 @@ altura_tela = 700
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('IFMA Velozes e Estudiosos')
 
+#Colocando a imagem de fundo
+imagem = pygame.image.load('img/asfalto.jpg')
+imagem = pygame.transform.scale(imagem,(largura_tela,altura_tela))
+
 # Cores
 preto = (0, 0, 0)
 branco = (255, 255, 255)
 
 # Aqui coloquei separado para ajustar as configurações do carro
 carro_largura = 50
+carro_policia_largura = 100
 # pygame.mixer_music.load('songs/corrida.mp3')
 # pygame.mixer_music.play(-1)
 carro = pygame.image.load('img/carro.png')  
 carro = pygame.transform.scale(carro, (carro_largura, 100))
+
+carro_policia = pygame.image.load('img/policia.png')  
+carro_policia = pygame.transform.scale(carro_policia, (carro_policia_largura, 100))
 
 # Posição inicial do carro
 x = (largura_tela * 0.45)
@@ -45,18 +54,37 @@ obstaculo_altura = 100
 obstaculo_cor = (255, 0, 255)  # Veja que é usado o padrão RGB, não preciso entrar em detalhes, certo?
 obstaculo_velocidade = 7 # Falarei disso na sala (Será também uma implementação como Atividade)
 obstaculo_x = random.randrange(0, largura_tela)
+obstaculo_xx = random.randrange(0, largura_tela)
 obstaculo_y = -600
 
 # Desenhando os obstáculos [leiam a documentação para implementar aqui fiz apenas alguns esboços]
 def desenha_obstaculo(x, y, largura, altura, cor):
-    # pygame.image.load('img/carroilustrativo2.png')
     pygame.draw.rect(tela, cor, [x, y, largura, altura])
+
+#alternativa para colocar um carro como obstaculo
+def carro_obstaculo(x, y, largura,):
+    carro_vermelho = pygame.image.load('img/carroilustrativo1.png')
+    carro_vermelho = pygame.transform.scale(carro_vermelho, (largura, 100))
+    tela.blit(carro_vermelho, (x, y))
+    
+#alternativa para colocar gerar mais de um carro como obstaculo
+def gerador_de_obstaculo_carro(x1, x2, y, largura,):
+    carro_amarelo = pygame.image.load('img/carroilustrativo2.png')
+    carro_vermelho = pygame.image.load('img/carroilustrativo1.png')
+    carro_amarelo = pygame.transform.scale(carro_amarelo, (largura, 100))
+    carro_vermelho = pygame.transform.scale(carro_vermelho, (largura, 100))
+    tela.blit(carro_amarelo, (x1, y))
+    tela.blit(carro_vermelho, (x2, y))
 
 # Redesenhando a tela [leiam a documentação para implementar aqui fiz apenas alguns esboços]
 def redesenhar_tela():
-    tela.fill(branco)
-    tela.blit(carro, (x, y))
-    desenha_obstaculo(obstaculo_x, obstaculo_y, obstaculo_largura, obstaculo_altura, obstaculo_cor)
+    tela.blit(imagem,(0,0))
+    tela.blit(carro, (x,y))
+    print('X: ' + str(x) + ' Y: ' + str(y))
+    print('ObsX: ' + str(obstaculo_x) + ' ObsY: ' + str(obstaculo_y))
+    gerador_de_obstaculo_carro(obstaculo_x, obstaculo_xx , obstaculo_y, 50)
+    # desenha_obstaculo(obstaculo_x, obstaculo_y, obstaculo_largura, obstaculo_altura, obstaculo_cor)
+    # carro_obstaculo(obstaculo_x, obstaculo_y, 50)
     pygame.display.update()
 
 # Parte principal do jogo (aqui executo a criação do loop)
@@ -70,15 +98,15 @@ while jogo_ativo:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT]:#certo
-        if x == (largura_tela - largura_tela ):
-            x
+    if keys[pygame.K_LEFT]:
+        if x == (largura_tela - largura_tela):
+            x -= 0
         else:
             x -= 5
-            
-    if keys[pygame.K_RIGHT]:#certo
-        if x == (largura_tela - 50):
-            x
+        
+    if keys[pygame.K_RIGHT]:
+        if x >= (largura_tela - carro_largura):
+            x -= 0
         else:
             x += 5
             
@@ -88,8 +116,8 @@ while jogo_ativo:
         else:
             y -= 5
             
-    if keys[pygame.K_DOWN]:#certo
-        if y == (altura_tela - 100) :
+    if keys[pygame.K_DOWN]:#condição de se y é igual a altura máxima da tela menos o tamanho do carro pra não travar metade do carro dentro e outra pra fora da tela
+        if y == (altura_tela - carro_largura) :
             y
         else:
             y += 5
