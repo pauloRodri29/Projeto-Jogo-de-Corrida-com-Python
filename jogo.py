@@ -18,12 +18,20 @@ import random
 
 # Aqui faço a inicialização da biblioteca Pygame
 pygame.init()
+pygame.mixer.init()
 
 # Determinei 800x600 mas vc pode aplicar a resolução que achar melhor (porém, vou fazer uma atividade em sala de upgrade)
 largura_tela = 800
 altura_tela = 700
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('IFMA Velozes e Estudiosos')
+
+#Pontuação
+pontos = 0
+
+#Som do jogo
+pygame.mixer.music.load('songs/sonoro.wav')
+pygame.mixer.music.play(-1)
 
 #Colocando a imagem de fundo
 imagem = pygame.image.load('img/asfalto.jpg')
@@ -35,14 +43,10 @@ branco = (255, 255, 255)
 
 # Aqui coloquei separado para ajustar as configurações do carro
 carro_largura = 50
-carro_policia_largura = 100
 # pygame.mixer_music.load('songs/corrida.mp3')
 # pygame.mixer_music.play(-1)
 carro = pygame.image.load('img/carro.png')  
 carro = pygame.transform.scale(carro, (carro_largura, 100))
-
-carro_policia = pygame.image.load('img/policia.png')  
-carro_policia = pygame.transform.scale(carro_policia, (carro_policia_largura, 100))
 
 # Posição inicial do carro
 x = (largura_tela * 0.45)
@@ -126,14 +130,27 @@ while jogo_ativo:
     if obstaculo_y > altura_tela:
         obstaculo_y = 0 - obstaculo_altura
         obstaculo_x = random.randrange(0, largura_tela)
+        pontos += 1
     
-    if (
+    if (#lógica para colição de um dos carros
     x < obstaculo_x + obstaculo_largura and
     x + obstaculo_altura > obstaculo_x and
     y < obstaculo_y + obstaculo_altura and
     y + carro_largura > obstaculo_y
     ):
-        jogo_ativo = False
+        print(obstaculo_x + obstaculo_largura)
+        print(x)
+        if pontos == 2:
+            jogo_ativo = False
+    
+    if (#lógica para colição de um dos carros
+    x < obstaculo_xx + obstaculo_largura and
+    x + obstaculo_altura > obstaculo_xx and
+    y < obstaculo_y + obstaculo_altura and
+    y + carro_largura > obstaculo_y
+    ):
+        if pontos == 2:
+            jogo_ativo = False
         
     redesenhar_tela()
     clock.tick(60)
