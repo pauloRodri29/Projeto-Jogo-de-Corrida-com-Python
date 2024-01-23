@@ -15,6 +15,10 @@
 import pygame
 import random
 
+#Colocando a imagem de fundo
+imagem = pygame.image.load('C:/Users/narin/OneDrive/Documentos/Programas/jogo/Projeto-Jogo-de-Corrida-com-Python-main/img/tapete')
+imagem = pygame.transform.scale(imagem,(800,700))
+
 # Aqui faço a inicialização da biblioteca Pygame
 pygame.init()
 
@@ -29,15 +33,15 @@ preto = (0, 0, 0)
 branco = (255, 255, 255)
 
 # Aqui coloquei separado para ajustar as configurações do carro
-carro_largura = 50
+carro_largura = 150
 # pygame.mixer_music.load('songs/corrida.mp3')
 # pygame.mixer_music.play(-1)
-carro = pygame.image.load('img/carro.png')  
-carro = pygame.transform.scale(carro, (carro_largura, 100))
+carro = pygame.image.load('C:/Users/narin/OneDrive/Documentos/Programas/jogo/Projeto-Jogo-de-Corrida-com-Python-main/img/carro.png')  
+carro = pygame.transform.scale(carro, (carro_largura, 220))
 
 # Posição inicial do carro
-x = (largura_tela * 0.45)
-y = (altura_tela * 0.8)
+x = (330)
+y = (altura_tela * 0.65)
 
 # Configurações dos obstáculos
 obstaculo_largura = 50
@@ -54,8 +58,10 @@ def desenha_obstaculo(x, y, largura, altura, cor):
 
 # Redesenhando a tela [leiam a documentação para implementar aqui fiz apenas alguns esboços]
 def redesenhar_tela():
-    tela.fill(branco)
-    tela.blit(carro, (x, y))
+    tela.blit(imagem,(0,0))
+    tela.blit(carro, (x,y))
+    print('X: ' + str(x) + ' Y: ' + str(y))
+    print('ObsX: ' + str(obstaculo_x) + ' ObsY: ' + str(obstaculo_y))
     desenha_obstaculo(obstaculo_x, obstaculo_y, obstaculo_largura, obstaculo_altura, obstaculo_cor)
     pygame.display.update()
 
@@ -70,15 +76,15 @@ while jogo_ativo:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT]:#certo
-        if x == (largura_tela - largura_tela ):
-            x
+    if keys[pygame.K_LEFT]:
+        if x==(largura_tela -largura_tela):
+            x-=0
         else:
             x -= 5
-            
-    if keys[pygame.K_RIGHT]:#certo
-        if x == (largura_tela - 50):
-            x
+        
+    if keys[pygame.K_RIGHT]:
+        if x>=(largura_tela-150):
+            x-=0
         else:
             x += 5
             
