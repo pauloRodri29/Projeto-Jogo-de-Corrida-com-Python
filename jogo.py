@@ -19,7 +19,7 @@ import random
 pygame.init()
 
 # Determinei 800x600 mas vc pode aplicar a resolução que achar melhor (porém, vou fazer uma atividade em sala de upgrade)
-largura_tela = 900
+largura_tela = 800
 altura_tela = 700
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('IFMA Velozes e Estudiosos')
@@ -29,9 +29,9 @@ preto = (0, 0, 0)
 branco = (255, 255, 255)
 
 # Aqui coloquei separado para ajustar as configurações do carro
-carro_largura = 80
-pygame.mixer_music.load('songs/corrida.mp3')
-pygame.mixer_music.play(-1)
+carro_largura = 50
+# pygame.mixer_music.load('songs/corrida.mp3')
+# pygame.mixer_music.play(-1)
 carro = pygame.image.load('img/carro.png')  
 carro = pygame.transform.scale(carro, (carro_largura, 100))
 
@@ -42,19 +42,22 @@ y = (altura_tela * 0.8)
 # Configurações dos obstáculos
 obstaculo_largura = 50
 obstaculo_altura = 100
-obstaculo_cor = (255, 0, 0)  # Veja que é usado o padrão RGB, não preciso entrar em detalhes, certo?
+obstaculo_cor = (255, 0, 255)  # Veja que é usado o padrão RGB, não preciso entrar em detalhes, certo?
 obstaculo_velocidade = 7 # Falarei disso na sala (Será também uma implementação como Atividade)
 obstaculo_x = random.randrange(0, largura_tela)
 obstaculo_y = -600
 
 # Desenhando os obstáculos [leiam a documentação para implementar aqui fiz apenas alguns esboços]
 def desenha_obstaculo(x, y, largura, altura, cor):
+    # pygame.image.load('img/carroilustrativo2.png')
     pygame.draw.rect(tela, cor, [x, y, largura, altura])
 
 # Redesenhando a tela [leiam a documentação para implementar aqui fiz apenas alguns esboços]
 def redesenhar_tela():
     tela.fill(branco)
     tela.blit(carro, (x, y))
+    print('X: ' + str(x) + ' Y: ' + str(y))
+    print('ObsX: ' + str(obstaculo_x) + ' ObsY: ' + str(obstaculo_y))
     desenha_obstaculo(obstaculo_x, obstaculo_y, obstaculo_largura, obstaculo_altura, obstaculo_cor)
     pygame.display.update()
 
@@ -69,16 +72,43 @@ while jogo_ativo:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT]:
-        x -= 5
-    if keys[pygame.K_RIGHT]:
-        x += 5
+    if keys[pygame.K_LEFT]:#certo
+        if x == (largura_tela - largura_tela ):
+            x
+        else:
+            x -= 5
+            
+    if keys[pygame.K_RIGHT]:#certo
+        if x == (largura_tela - 50):
+            x
+        else:
+            x += 5
+            
+    if keys[pygame.K_UP]:#certo
+        if y == (altura_tela - altura_tela):
+            y
+        else:
+            y -= 5
+            
+    if keys[pygame.K_DOWN]:#certo
+        if y == (altura_tela - 100) :
+            y
+        else:
+            y += 5
 
     obstaculo_y += obstaculo_velocidade
     if obstaculo_y > altura_tela:
         obstaculo_y = 0 - obstaculo_altura
         obstaculo_x = random.randrange(0, largura_tela)
-
+    
+    if (
+    x < obstaculo_x + obstaculo_largura and
+    x + obstaculo_altura > obstaculo_x and
+    y < obstaculo_y + obstaculo_altura and
+    y + carro_largura > obstaculo_y
+    ):
+        jogo_ativo = False
+        
     redesenhar_tela()
     clock.tick(60)
 
